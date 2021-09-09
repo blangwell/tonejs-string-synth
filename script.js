@@ -1,7 +1,6 @@
-const h1 = document.querySelector('h1');
+const noteForm = document.querySelector('#note-form');
 const notesInput = document.querySelector('#notes');
 const playBtn = document.querySelector('#play-btn');
-const noteForm = document.querySelector('#note-form');
 
 const notesToHz = {
 	c: 261.626,
@@ -16,6 +15,7 @@ const notesToHz = {
 const synth = new Tone.Synth().toDestination(); 
 const now = Tone.now();
 
+
 function playSequence(string) {
 	const notes = string.split('').map(char => notesToHz[char]);
 
@@ -28,6 +28,7 @@ function playSequence(string) {
 	Tone.Transport.start();
 }
 
+
 noteForm.addEventListener('submit', e => {
 	/* 
 	NOTE: on Chrome I consistently receive an error that 
@@ -35,10 +36,7 @@ noteForm.addEventListener('submit', e => {
 	Transport.start() in the playSequence function
 	I invoke Tone.start() directly to avoid this
 	*/
-	e.preventDefault();
-
+	e.preventDefault(); 
 	Tone.start();
-	console.log(notesInput.value);
-	notesInput.value ? playSequence(notesInput.value) :
-	playSequence('cde');
+	notesInput.value ? playSequence(notesInput.value) : playSequence('cde');
 });
