@@ -15,27 +15,26 @@ const notesToHz = {
 const synth = new Tone.Synth().toDestination(); 
 const now = Tone.now();
 
-
 function playSequence(string) {
-	const notes = string.split('').map(char => notesToHz[char]);
+	let count = 0;
+	let notes = string.split('');
+	let lastNote = notes.length;
+	notes = notes.map(char => notesToHz[char] ?? 100);
 
-	let seq = new Tone.Sequence(function(time, note) {
+	let seq = new Tone.Sequence((time, note) => {
 		synth.triggerAttackRelease(note, 0.1, time);
-		console.log(note);
+		count++;
+		if (count === lastNote) {
+			seq.stop();
+			Tone.Transport.stop();
+		}
 	}, [...notes], "4n").start(0);
-	seq.loop = false;
 
+	seq.loop = false;
 	Tone.Transport.start();
 }
 
-
 noteForm.addEventListener('submit', e => {
-	/* 
-	NOTE: on Chrome I consistently receive an error that 
-	the AudioContext is suspended despite invoking 
-	Transport.start() in the playSequence function
-	I invoke Tone.start() directly to avoid this
-	*/
 	e.preventDefault(); 
 	Tone.start();
 	notesInput.value ? playSequence(notesInput.value) : playSequence('cde');

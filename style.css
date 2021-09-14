@@ -1,0 +1,37 @@
+:root {
+    font-family: sans-serif;
+}
+
+#page-title, #notes-label {
+    font-family: 'Fredoka One', cursive;
+}
+
+main, #note-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#note-form * {
+    margin-top: 20px;
+}
+
+#notes {
+    text-align: center;
+    width: 200px;
+    height: 2rem;
+    border-radius: 15px;
+    border: 2px solid lightgray;
+}
+
+#play-btn {
+    background-color: lightblue;
+    border: 0;
+    border-radius: 15px;
+    padding: 1rem;
+}
+#play-btn:hover {
+    cursor: pointer;
+    background-color: lightskyblue;
+}
