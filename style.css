@@ -1,9 +1,19 @@
 :root {
     font-family: sans-serif;
+    background-color: black;
 }
 
-#page-title, #notes-label {
-    font-family: 'Fredoka One', cursive;
+#page-title {
+    font-family: 'Libre Barcode 39 Extended Text', cursive;
+    font-size: clamp(3.5rem, 10vw, 5rem);
+    color: lightgreen;
+    text-align: center;
+    line-height: 1.8em;
+    margin: 20px 0;
+}
+
+#note-label {
+    color: white;
 }
 
 main, #note-form {
@@ -13,25 +23,28 @@ main, #note-form {
     align-items: center;
 }
 
+
 #note-form * {
     margin-top: 20px;
+    font-family: 'Space Mono', monospace;
 }
 
-#notes {
-    text-align: center;
-    width: 200px;
-    height: 2rem;
-    border-radius: 15px;
-    border: 2px solid lightgray;
+#note-input {
+    width: 100%;
+    background-color: black;
+    color: lightgreen;
+    padding: 10px;
+    border: 10px outset lightgray;
 }
 
 #play-btn {
-    background-color: lightblue;
+    background-color: lightgrey;
     border: 0;
     border-radius: 15px;
     padding: 1rem;
+    transition-duration: .3s;
 }
 #play-btn:hover {
     cursor: pointer;
-    background-color: lightskyblue;
+    background-color: lightgreen;
 }

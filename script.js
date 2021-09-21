@@ -1,5 +1,5 @@
 const noteForm = document.querySelector('#note-form');
-const notesInput = document.querySelector('#notes');
+const noteInput = document.querySelector('#note-input');
 const playBtn = document.querySelector('#play-btn');
 
 const notesToHz = {
@@ -19,7 +19,9 @@ function playSequence(string) {
 	let count = 0;
 	let notes = string.split('');
 	let lastNote = notes.length;
-	notes = notes.map(char => notesToHz[char] ?? 100);
+	notes = notes.map(char => { 
+		return char === " " ? 0 : notesToHz[char] ?? 100;
+	});
 
 	let seq = new Tone.Sequence((time, note) => {
 		synth.triggerAttackRelease(note, 0.1, time);
@@ -37,5 +39,14 @@ function playSequence(string) {
 noteForm.addEventListener('submit', e => {
 	e.preventDefault(); 
 	Tone.start();
-	notesInput.value ? playSequence(notesInput.value) : playSequence('cde');
+	playSequence(getCodeFromInput(noteInput.value));
 });
+
+/* 
+user must interact with the page before audio context plas
+to get around this we have users enter string methods into the text box and 
+perform window.Function eval alternative to play the resulting string
+*/
+function getCodeFromInput(code) {
+	return Function('return ' + code)();
+}
