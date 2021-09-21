@@ -1,52 +1,53 @@
-const noteForm = document.querySelector('#note-form');
-const noteInput = document.querySelector('#note-input');
-const playBtn = document.querySelector('#play-btn');
+let synthOnline = false;
 
-const notesToHz = {
-	c: 261.626,
-	d: 293.665,
-	e: 329.628,
-	f: 349.228,
-	g: 391.995,
-	a: 440.000,
-	b: 493.883
+const playSequence = string => {
+	if (synthOnline === false) return 'Synth is currently offline!';
+	else {
+		const synth = new Tone.Synth().toDestination();
+		const notesToHz = {
+			c: 261.626,
+			d: 293.665,
+			e: 329.628,
+			f: 349.228,
+			g: 391.995,
+			a: 440.000,
+			b: 493.883
+		};
+
+		let count = 0;
+		let notesArray = string.split('');
+		let lastNote = notesArray.length;
+
+		notesArray = notesArray.map(char => {
+			if (char === " ") return 0;
+			else return notesToHz[char] ?? 100
+		});
+
+		let sequence = new Tone.Sequence((time, note) => {
+			synth.triggerAttackRelease(note, 0.1, time);
+			count++;
+			if (count === lastNote) {
+				sequence.stop();
+				Tone.Transport.stop();
+			}
+		}, [...notesArray], "4n").start(0);
+
+		sequence.loop = false;
+		Tone.Transport.start();
+		return `Playing: ${string}`;
+	}
 }
 
-const synth = new Tone.Synth().toDestination(); 
-const now = Tone.now();
+const startSynthButton = document.querySelector('#start-synth-btn');
 
-function playSequence(string) {
-	let count = 0;
-	let notes = string.split('');
-	let lastNote = notes.length;
-	notes = notes.map(char => { 
-		return char === " " ? 0 : notesToHz[char] ?? 100;
-	});
-
-	let seq = new Tone.Sequence((time, note) => {
-		synth.triggerAttackRelease(note, 0.1, time);
-		count++;
-		if (count === lastNote) {
-			seq.stop();
-			Tone.Transport.stop();
-		}
-	}, [...notes], "4n").start(0);
-
-	seq.loop = false;
-	Tone.Transport.start();
-}
-
-noteForm.addEventListener('submit', e => {
-	e.preventDefault(); 
+startSynthButton.addEventListener('click', () => {
+	synthOnline = true;
 	Tone.start();
-	playSequence(getCodeFromInput(noteInput.value));
-});
+	console.clear();
+	console.log('Happy Synthing!');
 
-/* 
-user must interact with the page before audio context plas
-to get around this we have users enter string methods into the text box and 
-perform window.Function eval alternative to play the resulting string
-*/
-function getCodeFromInput(code) {
-	return Function('return ' + code)();
-}
+	const messageElem = document.querySelector('.message');
+	messageElem.innerText = "Synth Online!";
+	messageElem.classList.remove('offline');
+	startSynthButton.style.display = "none";
+});

@@ -1,10 +1,18 @@
 :root {
-    font-family: sans-serif;
     background-color: black;
+    color: lightgreen;
+}
+
+main {
+    font-family: 'Roboto Mono', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #page-title {
-    font-family: 'Libre Barcode 39 Extended Text', cursive;
+    font-style: italic;
     font-size: clamp(3.5rem, 10vw, 5rem);
     color: lightgreen;
     text-align: center;
@@ -12,39 +20,20 @@
     margin: 20px 0;
 }
 
-#note-label {
-    color: white;
-}
-
-main, #note-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-
-#note-form * {
-    margin-top: 20px;
-    font-family: 'Space Mono', monospace;
-}
-
-#note-input {
-    width: 100%;
-    background-color: black;
-    color: lightgreen;
-    padding: 10px;
-    border: 10px outset lightgray;
-}
-
-#play-btn {
+#start-synth-btn {
+    font-family: inherit;
+    font-weight: 500;
     background-color: lightgrey;
     border: 0;
     border-radius: 15px;
     padding: 1rem;
     transition-duration: .3s;
 }
-#play-btn:hover {
+#start-synth-btn:hover {
     cursor: pointer;
     background-color: lightgreen;
+}
+
+.offline {
+    color: red;
 }
